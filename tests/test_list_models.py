@@ -1,14 +1,14 @@
-import pytest
-from unittest.mock import patch, MagicMock
-import sys
 from io import StringIO
+from unittest.mock import MagicMock, patch
+
 import list_models
+
 
 class TestListModels:
     """list_models.pyのテストクラス"""
-    
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('google.generativeai.list_models')
+
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("google.generativeai.list_models")
     def test_list_models_success(self, mock_list_models, mock_stdout):
         """モデル一覧の取得が成功した場合のテスト"""
         # モックの設定
@@ -19,7 +19,7 @@ class TestListModels:
         mock_model1.input_token_limit = 1000000
         mock_model1.output_token_limit = 8192
         mock_model1.supported_generation_methods = ["generateContent", "countTokens"]
-        
+
         mock_model2 = MagicMock()
         mock_model2.name = "models/gemini-1.5-flash"
         mock_model2.display_name = "Gemini 1.5 Flash"
@@ -27,12 +27,12 @@ class TestListModels:
         mock_model2.input_token_limit = 1000000
         mock_model2.output_token_limit = 8192
         mock_model2.supported_generation_methods = ["generateContent", "countTokens"]
-        
+
         mock_list_models.return_value = [mock_model1, mock_model2]
-        
+
         # 関数の実行
         list_models.main()
-        
+
         # 検証
         output = mock_stdout.getvalue()
         assert "利用可能なGeminiモデルのリスト:" in output
@@ -42,19 +42,19 @@ class TestListModels:
         assert "models/gemini-1.5-flash" in output
         assert "Gemini 1.5 Flash" in output
         assert "高速なモデル" in output
-    
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('google.generativeai.list_models')
+
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("google.generativeai.list_models")
     def test_list_models_error(self, mock_list_models, mock_stdout):
         """エラーが発生した場合のテスト"""
         # モックの設定
         error_message = "APIエラー"
         mock_list_models.side_effect = Exception(error_message)
-        
+
         # 関数の実行
         list_models.main()
-        
+
         # 検証
         output = mock_stdout.getvalue()
         assert "エラーが発生しました" in output
-        assert error_message in output 
+        assert error_message in output

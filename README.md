@@ -8,8 +8,8 @@ Google の Gemini API を使用した簡単なプログラム集です。テキ�
 
 セットアップスクリプトを使用して、必要なパッケージを自動的にインストールできます：
 
-- Windows: `setup.bat` をダブルクリックするか、コマンドプロンプトで実行します。
-- Linux/macOS: ターミナルで `chmod +x setup.sh && ./setup.sh` を実行します。
+- Windows: プロジェクトのルートディレクトリから `scripts\setup.bat` を実行します。（scriptsディレクトリに移動せずに実行してください）
+- Linux/macOS: プロジェクトのルートディレクトリから `scripts/setup.sh` を実行します。（scriptsディレクトリに移動せずに実行してください）
 
 セットアップスクリプトは以下の処理を行います：
 1. Python仮想環境を作成
@@ -146,6 +146,44 @@ python -m pytest tests/ --cov=. --cov-report=html
 
 実行後、`htmlcov` ディレクトリ内の `index.html` をブラウザで開くと、詳細なカバレッジレポートを確認できます。
 
+## コードの品質管理
+
+このプロジェクトでは、コードの品質を維持するために以下のlinterツールを使用しています：
+
+- **flake8**: コードスタイルとエラーチェック
+- **black**: コードフォーマッター
+- **isort**: インポート文の整理
+
+### linterの実行
+
+linterを実行するには、以下のコマンドをプロジェクトのルートディレクトリから実行します（scriptsディレクトリに移動せずに実行してください）：
+
+#### Windows:
+```bash
+scripts\lint.bat
+```
+
+#### Linux/macOS:
+```bash
+scripts/lint.sh
+```
+
+### コードのフォーマット
+
+コードを自動的にフォーマットするには、以下のコマンドをプロジェクトのルートディレクトリから実行します（scriptsディレクトリに移動せずに実行してください）：
+
+#### Windows:
+```bash
+scripts\format_all.bat
+```
+
+#### Linux/macOS:
+```bash
+scripts/format_all.sh
+```
+
+これにより、コードが自動的にフォーマットされ、潜在的な問題が検出されます。
+
 ## プロジェクト構造
 
 ```
@@ -154,8 +192,14 @@ gemini-petit/
 ├── gemini_image.py      # 画像分析プログラム
 ├── list_models.py       # 利用可能なモデル一覧表示プログラム
 ├── requirements.txt     # 依存パッケージリスト
-├── setup.bat            # Windows用セットアップスクリプト
-├── setup.sh             # Linux/macOS用セットアップスクリプト
+├── scripts/             # スクリプトディレクトリ
+│   ├── setup.bat        # Windows用セットアップスクリプト
+│   ├── setup.sh         # Linux/macOS用セットアップスクリプト
+│   ├── lint.bat         # Windows用linter実行スクリプト
+│   ├── lint.sh          # Linux/macOS用linter実行スクリプト
+│   └── format_all.bat   # Windows用フォーマットスクリプト
+├── setup.cfg            # flake8とisortの設定ファイル
+├── pyproject.toml       # blackの設定ファイル
 ├── .env                 # 環境変数設定ファイル
 ├── tests/               # テストディレクトリ
 │   ├── __init__.py      # Pythonパッケージ化
@@ -171,4 +215,4 @@ gemini-petit/
 - Gemini API の利用には API キーが必要です。
 - API の利用には Google の利用規約が適用されます。
 - 画像分析には `PIL` ライブラリを使用しているため、対応している画像形式（JPG、PNG など）のみ使用できます。
-- 仮想環境を使用することで、システム全体に影響を与えずにパッケージをインストールできます。 
+- 仮想環境を使用することで、システム全体に影響を与えずにパッケージをインストールできます。

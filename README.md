@@ -42,7 +42,7 @@ source venv/bin/activate
 pip install uv
 
 # uvを使用してパッケージをインストール
-python -m uv pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 #### 通常のpipを使用する場合:
@@ -94,6 +94,77 @@ python gemini_image.py
 
 画像ファイルのパスと、画像に対する質問やプロンプトを入力すると、Gemini API が画像を分析して回答します。
 終了するには `exit` と入力してください。
+
+## テストの実行
+
+このプロジェクトには、各機能のユニットテストが含まれています。テストは `tests` ディレクトリに配置されています。テストを実行するには、仮想環境を有効化した状態で以下のコマンドを実行してください：
+
+### すべてのテストを実行
+
+```bash
+python -m pytest tests/
+```
+
+### 特定のテストファイルを実行
+
+```bash
+# テキスト生成機能のテスト
+python -m pytest tests/test_gemini_app.py
+
+# 画像分析機能のテスト
+python -m pytest tests/test_gemini_image.py
+
+# モデル一覧表示機能のテスト
+python -m pytest tests/test_list_models.py
+```
+
+### 詳細なテスト結果を表示
+
+```bash
+python -m pytest tests/ -v
+```
+
+### テストカバレッジを確認
+
+テストカバレッジを確認するには、まず `pytest-cov` パッケージをインストールします：
+
+```bash
+pip install pytest-cov
+```
+
+そして、以下のコマンドでカバレッジレポートを生成します：
+
+```bash
+python -m pytest tests/ --cov=.
+```
+
+より詳細なHTMLレポートを生成するには：
+
+```bash
+python -m pytest tests/ --cov=. --cov-report=html
+```
+
+実行後、`htmlcov` ディレクトリ内の `index.html` をブラウザで開くと、詳細なカバレッジレポートを確認できます。
+
+## プロジェクト構造
+
+```
+gemini-petit/
+├── gemini_app.py        # テキスト生成プログラム
+├── gemini_image.py      # 画像分析プログラム
+├── list_models.py       # 利用可能なモデル一覧表示プログラム
+├── requirements.txt     # 依存パッケージリスト
+├── setup.bat            # Windows用セットアップスクリプト
+├── setup.sh             # Linux/macOS用セットアップスクリプト
+├── .env                 # 環境変数設定ファイル
+├── tests/               # テストディレクトリ
+│   ├── __init__.py      # Pythonパッケージ化
+│   ├── conftest.py      # pytest設定ファイル
+│   ├── test_gemini_app.py    # テキスト生成機能のテスト
+│   ├── test_gemini_image.py  # 画像分析機能のテスト
+│   └── test_list_models.py   # モデル一覧表示機能のテスト
+└── README.md            # プロジェクト説明
+```
 
 ## 注意事項
 
